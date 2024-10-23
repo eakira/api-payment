@@ -1,0 +1,58 @@
+version: '3.9'
+
+services:
+  php:
+    build: .docker/php
+    container_name: api-payment-php
+    ports:
+      - "19000:9000"
+      - "15173:5173"
+      - "13001:3000"
+    volumes:
+      - .:/var/www:cached
+    networks:
+        - api-payment
+
+  nginx:
+    image: nginx
+    container_name: api-payment-nginx
+    ports:
+      - "8060:80"
+    volumes:
+      - .:/var/www
+      - .docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+    networks:
+        - api-payment
+    depends_on:
+      - php
+
+  db:
+    image: mariadb:latest
+    restart: always
+    container_name: api-payment-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: api_payment
+      MYSQL_USER: api_payment
+      MYSQL_PASSWORD: api_payment
+    ports:
+      - "7306:3306"
+    volumes:
+      - .docker/db/data:/var/lib/mysql
+    networks:
+      - api-payment
+
+  redis:
+    image: redis:latest
+    command: redis-server --appendonly yes
+    container_name: api-payment-redis
+    volumes:
+      - .docker/redis/data:/data
+    ports:
+      - "6379:6379"
+    networks:
+        - api-payment
+
+networks:
+    api-payment:
+        driver: bridge
