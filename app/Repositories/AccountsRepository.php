@@ -30,4 +30,15 @@ class AccountsRepository implements IAccountsRepository
         return collect($this->accountsModel->find($account_id));
     }
 
+    /**
+     * 
+     */
+    public function store(int $account_id, float $balance) : void
+    {
+        $this->accountsModel->query()->updateOrCreate(
+            ['id' => $account_id],
+            ['id' => $account_id, 'balance' => $balance],
+        );
+    }
+
 }
