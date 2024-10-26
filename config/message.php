@@ -7,6 +7,10 @@ return [
         'message' => ["message" => 'The request was successful'],
         'status_code' => 200
     ],
+    'insert_sucess' => [
+        'message' => ["message" => 'Created'],
+        'status_code' => 201
+    ],
 
     'not_found' => [
         'message' => null,

@@ -13,9 +13,9 @@ class CreateEventRequest extends BaseRequest
     {
         return [
             'type' => 'required|in:deposit,withdraw,transfer',
-            'destination' => 'required|integer',
+            'destination' => 'required_if:type,deposit,transfer',
             'amount' => 'required|numeric',
-            'origin' => 'integer|required_if:type,transfer'
+            'origin' => 'integer|required_if:type,transfer,withdraw'
         ];
     }
 

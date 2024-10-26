@@ -21,10 +21,10 @@ class WithdrawStrategy implements IEventsStrategy
      */
     public function event(Collection $data) : Collection
     {
-        $destination = $data->get('destination');
+        $origin = $data->get('origin');
         $amount = $data->get('amount', 0);
 
-        $destin = $this->accountsRepo->getBalance($destination);
+        $destin = $this->accountsRepo->getBalance($origin);
         $balance = $destin->get('balance', 0) - $amount;
         if($balance < 0) {
             throw new \DomainException(config('message.insufficient_balance'));
@@ -32,8 +32,8 @@ class WithdrawStrategy implements IEventsStrategy
 
         DB::beginTransaction();
         try {
-            $destin = $this->accountsRepo->store($destination, $balance);
-            $destin = $this->eventsRepo->store($destination, 'withdraw', $amount);
+            $destin = $this->accountsRepo->store($origin, $balance);
+            $destin = $this->eventsRepo->store($origin, 'withdraw', $amount);
             DB::commit();
 
         } catch (\Throwable $e) {
@@ -42,6 +42,6 @@ class WithdrawStrategy implements IEventsStrategy
 
         }
 
-        return collect(["origin" => ["id" => $destination, "balance" => $balance]]);
+        return collect(["origin" => ["id" => $origin, "balance" => $balance]]);
     }
 }
