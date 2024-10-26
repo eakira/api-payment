@@ -24,4 +24,10 @@ class AccountsRepository implements IAccountsRepository
         $this->accountsModel->query()->delete();
     }
 
+
+    public function getBalance(int $account_id): ?Collection
+    {
+        return collect($this->accountsModel->find($account_id));
+    }
+
 }

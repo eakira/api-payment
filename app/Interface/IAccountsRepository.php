@@ -13,4 +13,10 @@ interface IAccountsRepository
      */
     public function reset(): void;
 
+    /**
+     * Get balance
+     * @return ?Collection
+     */
+    public function getBalance(int $account_id) : ?Collection;
+
 }
