@@ -14,7 +14,7 @@ class EventFactory
     {
         switch ($type) {
             case 'deposit':
-                return new DepositStrategy;
+                return app(DepositStrategy::class);
             case 'withdraw':
                 return new WithdrawStrategy;
             case 'transfer':
