@@ -25,6 +25,10 @@ class EventController extends Controller
                 return $this->response(config('message.not_found.message'), config('message.not_found.status_code'));
 
             return $this->response($return->toArray(), config('message.success.status_code'));
+        } catch (\DomainException $e) {
+            send_log($e->getMessage());
+            return $this->response(['message' => $e->getMessage()], config('message.error.status_code'));
+
         } catch (\Throwable $e) {
             send_log($e->getMessage());
 
