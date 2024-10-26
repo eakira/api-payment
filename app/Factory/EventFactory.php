@@ -16,9 +16,9 @@ class EventFactory
             case 'deposit':
                 return app(DepositStrategy::class);
             case 'withdraw':
-                return new WithdrawStrategy;
+                return app(WithdrawStrategy::class);
             case 'transfer':
-                return new TransferStrategy;
+                return app(TransferStrategy::class);
         }
 
     }
