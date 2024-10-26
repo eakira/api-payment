@@ -16,10 +16,10 @@ class EventController extends Controller
     public function create(CreateEventRequest $request)
     {
         try {
-            $data = $request->validated();
+            $data = collect($request->validated());
 
             $factory = $this->factory->getEventMethod(data_get($data, 'type'));
-            $return = $factory->event();
+            $return = $factory->event($data);
 
             if($return->isEmpty())
                 return $this->response(config('message.not_found.message'), config('message.not_found.status_code'));
