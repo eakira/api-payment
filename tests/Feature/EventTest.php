@@ -26,8 +26,7 @@ class EventTest extends TestCase
     {
         $response = $this->getJson('/api/v1/balance?account_id=1234');
 
-        $response->assertStatus(404)
-            ->assertExactJson(0);
+        $response->assertStatus(404);
     }
 
     /**

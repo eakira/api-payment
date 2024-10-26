@@ -6,4 +6,5 @@ Route::prefix('v1')->group(function () {
     Route::post('reset', [\App\Http\Controllers\ResetController::class, 'reset'])->name('config.reset');
 
     Route::get('balance', [\App\Http\Controllers\BalanceController::class, 'show'])->name('balance.show');
+    Route::post('event', [\App\Http\Controllers\EventController::class, 'create'])->name('event.create');
 });
