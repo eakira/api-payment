@@ -18,4 +18,11 @@ class EventsRepository implements IEventsRepository
     {
         $this->model->query()->delete();
     }
+
+    public function store(int $account_id, string $type, float $amount): void
+    {
+        $this->model->create(
+            ['account_id' => $account_id, 'type' => $type, 'balance' => $amount],
+        );
+    }
 }
