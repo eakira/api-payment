@@ -15,8 +15,7 @@ class EventTest extends TestCase
      */
     public function test_the_reset_returns_a_successful_response(): void
     {
-        $response = $this->post('/reset');
-
+        $response = $this->post('/api/v1/reset');
         $response->assertStatus(200);
     }
 
@@ -25,7 +24,7 @@ class EventTest extends TestCase
      */
     public function test_get_balance_for_non_existing_account()
     {
-        $response = $this->getJson('/balance?account_id=1234');
+        $response = $this->getJson('/api/v1/balance?account_id=1234');
 
         $response->assertStatus(404)
             ->assertExactJson(0);
@@ -42,7 +41,7 @@ class EventTest extends TestCase
             'amount' => 10,
         ];
 
-        $response = $this->postJson('/event', $payload);
+        $response = $this->postJson('/api/v1/event', $payload);
 
         $response->assertStatus(201)
             ->assertJson([
@@ -63,7 +62,7 @@ class EventTest extends TestCase
      */
     public function test_deposit_into_existing_account()
     {
-        $this->postJson('/event', [
+        $this->postJson('/api/v1/event', [
             'type' => 'deposit',
             'destination' => '100',
             'amount' => 10,
@@ -75,7 +74,7 @@ class EventTest extends TestCase
             'amount' => 10,
         ];
 
-        $response = $this->postJson('/event', $payload);
+        $response = $this->postJson('/api/v1/event', $payload);
 
         $response->assertStatus(201)
             ->assertJson([
@@ -96,7 +95,7 @@ class EventTest extends TestCase
      */
     public function test_get_balance_for_existing_account()
     {
-        $this->postJson('/event', [
+        $this->postJson('/api/v1/event', [
             'type' => 'deposit',
             'destination' => '100',
             'amount' => 20,
@@ -119,7 +118,7 @@ class EventTest extends TestCase
             'amount' => 10,
         ];
 
-        $response = $this->postJson('/event', $payload);
+        $response = $this->postJson('/api/v1/event', $payload);
 
         $response->assertStatus(404)
             ->assertExactJson(0);
@@ -137,7 +136,7 @@ class EventTest extends TestCase
             'amount' => 10,
         ];
 
-        $response = $this->postJson('/event', $payload);
+        $response = $this->postJson('/api/v1/event', $payload);
 
         $response->assertStatus(404)
             ->assertExactJson(0);
@@ -153,7 +152,7 @@ class EventTest extends TestCase
             'amount' => 5,
         ];
 
-        $response = $this->postJson('/event', $payload);
+        $response = $this->postJson('/api/v1/event', $payload);
 
         $response->assertStatus(201)
             ->assertJson([
@@ -182,7 +181,7 @@ class EventTest extends TestCase
             'destination' => '300',
         ];
 
-        $response = $this->postJson('/event', $payload);
+        $response = $this->postJson('/api/v1/event', $payload);
 
         $response->assertStatus(201)
             ->assertJson([
@@ -220,7 +219,7 @@ class EventTest extends TestCase
             'destination' => '300',
         ];
 
-        $response = $this->postJson('/event', $payload);
+        $response = $this->postJson('/api/v1/event', $payload);
 
         $response->assertStatus(404)
             ->assertExactJson(0);
@@ -238,7 +237,7 @@ class EventTest extends TestCase
             'destination' => '300',
         ];
 
-        $response = $this->postJson('/event', $payload);
+        $response = $this->postJson('/api/v1/event', $payload);
 
         $response->assertStatus(400)
             ->assertExactJson(0);
