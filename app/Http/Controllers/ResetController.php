@@ -26,6 +26,7 @@ class ResetController extends Controller
             return $this->response(config('message.success.message'), config('message.success.status_code'));
         } catch (\Throwable $e) {
             DB::rollBack();
+            send_log($e->getMessage());
 
             return $this->response(config('message.error.message'), config('message.error.status_code'));
         }
