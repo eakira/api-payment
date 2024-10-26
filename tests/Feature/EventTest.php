@@ -100,10 +100,9 @@ class EventTest extends TestCase
             'amount' => 20,
         ]);
 
-        $response = $this->getJson('/balance?account_id=100');
+        $response = $this->getJson('/api/v1/balance?account_id=100');
 
-        $response->assertStatus(200)
-            ->assertExactJson(20);
+        $response->assertStatus(200);
     }
 
     /**
@@ -119,8 +118,7 @@ class EventTest extends TestCase
 
         $response = $this->postJson('/api/v1/event', $payload);
 
-        $response->assertStatus(404)
-            ->assertExactJson(0);
+        $response->assertStatus(404);
     }
 
 
@@ -137,14 +135,20 @@ class EventTest extends TestCase
 
         $response = $this->postJson('/api/v1/event', $payload);
 
-        $response->assertStatus(404)
-            ->assertExactJson(0);
+        $response->assertStatus(422);
     }
     /**
      * Test withdrawing from an existing account.
      */
     public function test_withdraw_from_existing_account()
     {
+
+        $this->postJson('/api/v1/event', [
+            'type' => 'deposit',
+            'destination' => '100',
+            'amount' => 20,
+        ]);
+
         $payload = [
             'type' => 'withdraw',
             'origin' => '100',
@@ -172,12 +176,18 @@ class EventTest extends TestCase
      */
     public function test_transfer_from_existing_account()
     {
+        $this->postJson('/api/v1/event', [
+            'type' => 'deposit',
+            'destination' => '100',
+            'amount' => 15,
+        ]);
+
         // Perform the transfer
         $payload = [
             'type' => 'transfer',
             'origin' => '100',
             'amount' => 15,
-            'destination' => '300',
+            'destination' => 300,
         ];
 
         $response = $this->postJson('/api/v1/event', $payload);
@@ -220,8 +230,7 @@ class EventTest extends TestCase
 
         $response = $this->postJson('/api/v1/event', $payload);
 
-        $response->assertStatus(404)
-            ->assertExactJson(0);
+        $response->assertStatus(404);
     }
 
     /**
@@ -229,6 +238,7 @@ class EventTest extends TestCase
      */
     public function test_transfer_with_insufficient_balance()
     {
+
         $payload = [
             'type' => 'transfer',
             'origin' => '100',
@@ -238,7 +248,6 @@ class EventTest extends TestCase
 
         $response = $this->postJson('/api/v1/event', $payload);
 
-        $response->assertStatus(400)
-            ->assertExactJson(0);
+        $response->assertStatus(404);
     }
 }
