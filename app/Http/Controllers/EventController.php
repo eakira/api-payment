@@ -26,7 +26,6 @@ class EventController extends Controller
 
             return $this->response($return->toArray(), config('message.success.status_code'));
         } catch (\Throwable $e) {
-            dd($e);
             send_log($e->getMessage());
 
             return $this->response(config('message.error.message'), config('message.error.status_code'));
