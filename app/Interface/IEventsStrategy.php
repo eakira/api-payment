@@ -11,6 +11,6 @@ interface IEventsStrategy
      * Reset the accounts (Route for testing)
      * @return Collection
      */
-    public function event(): Collection;
+    public function event(Collection $data): Collection;
 
 }
