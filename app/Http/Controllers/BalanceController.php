@@ -21,9 +21,9 @@ class BalanceController extends Controller
             $return = $this->accountsRepo->getBalance(data_get($data, 'account_id'));
 
             if($return->isEmpty())
-                return $this->response(config('message.not_found.message'), config('message.not_found.status_code'));
+                return $this->response('0', config('message.not_found.status_code'));
 
-            return $this->response($return->toArray(), config('message.success.status_code'));
+            return $this->response((int)$return->get('balance'), config('message.success.status_code'));
         } catch (\Throwable $e) {
             send_log($e->getMessage());
 

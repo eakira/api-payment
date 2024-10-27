@@ -17,7 +17,7 @@ return [
         'status_code' => 404
     ],
     'validation_fail' => 'Verify the submitted fields',
-    'insufficient_balance' => 'Insufficient Balance',
+    'insufficient_balance' => '0',
 
     'error' => [
         'message' => ["message" => 'the server encountered an unexpected condition that prevented it from fulfilling the request'],

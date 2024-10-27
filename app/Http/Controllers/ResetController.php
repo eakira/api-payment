@@ -23,7 +23,7 @@ class ResetController extends Controller
             $this->accountsRepo->reset();
             DB::commit();
 
-            return $this->response(config('message.success.message'), config('message.success.status_code'));
+            return $this->response('OK', config('message.success.status_code'));
         } catch (\Throwable $e) {
             DB::rollBack();
             send_log($e->getMessage());
